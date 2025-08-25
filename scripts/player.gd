@@ -1,23 +1,35 @@
-extends CharacterBody2D
+extends CharacterBody3D
 
-## Script de déplacement du personnage
-## Compatible mobile + clavier
+@export var speed: float = 4.0
+@export var gravity: float = 9.8
 
-@export var speed := 150.0
+var joystick_input := Vector2.ZERO
 
 func _physics_process(delta):
-	var direction := Vector2.ZERO
+    var input_vec = Vector2.ZERO
+    
+    # Input clavier/pc
+    input_vec.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+    input_vec.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 
-	# Déplacement clavier/flèches (ou virtuel si mappé)
-	if Input.is_action_pressed("ui_right"):
-		direction.x += 1
-	if Input.is_action_pressed("ui_left"):
-		direction.x -= 1
-	if Input.is_action_pressed("ui_down"):
-		direction.y += 1
-	if Input.is_action_pressed("ui_up"):
-		direction.y -= 1
+    # Input mobile (joystick)
+    if joystick_input != Vector2.ZERO:
+        input_vec = joystick_input
+    
+    if input_vec.length() > 0:
+        input_vec = input_vec.normalized()
+        var forward = -transform.basis.z
+        var right = transform.basis.x
+        var dir = (forward * input_vec.y + right * input_vec.x).normalized()
+        velocity.x = dir.x * speed
+        velocity.z = dir.z * speed
+    else:
+        velocity.x = lerp(velocity.x, 0, 0.2)
+        velocity.z = lerp(velocity.z, 0, 0.2)
 
-	# Appliquer le mouvement
-	velocity = direction.normalized() * speed
-	move_and_slide()
+    if not is_on_floor():
+        velocity.y -= gravity * delta
+    else:
+        velocity.y = 0
+
+    move_and_slide()
