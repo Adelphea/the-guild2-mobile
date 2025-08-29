@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://main_scene"]
+
+[node name="Main" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.707107, -0.707107, 0, 0.707107, -0.707107, 0, 10, 0)
+shadow_enabled = true
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = PlaneMesh {
+    size = Vector2(200, 200)
+}
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = BoxShape3D {
+    size = Vector3(200, 1, 200)
+}
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 20, 20)
+current = true
+script = ExtResource("res://scripts/core/FreeCamera.gd")
+
+[sub_resource type="Environment" id=1]
+background_mode = 1
