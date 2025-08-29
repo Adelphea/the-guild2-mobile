@@ -1,32 +1,30 @@
-[gd_scene format=3 uid="uid://mobile_controls"]
+[gd_scene load_steps=4 format=3 uid="uid://dpvjalulucwry"]
 
-[ext_resource type="Script" path="res://scripts/ui/MobileControls.gd" id=1]
+[ext_resource type="Script" uid="uid://c8s7b12j8v68e" path="res://scripts/ui/MobileControls.gd" id="1_8hpay"]
 
-[node name="MobileControls" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-script = ExtResource("1")
+[sub_resource type="CircleShape2D" id="CircleShape2D_mqm6r"]
 
-[node name="VirtualJoystick" type="TouchScreenButton" parent="MobileControls"]
-position = Vector2(120, 800)
-shape = SubResource(1)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_treeb"]
 
-[node name="LookArea" type="TouchScreenButton" parent="MobileControls"]
-position = Vector2(600, 400)
-shape = SubResource(2)
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_8hpay")
 
-[node name="UpButton" type="Button" parent="MobileControls"]
-text = "↑"
-position = Vector2(900, 600)
-size = Vector2(100, 100)
+[node name="VirtualJoystick" type="TouchScreenButton" parent="."]
+shape = SubResource("CircleShape2D_mqm6r")
 
-[node name="DownButton" type="Button" parent="MobileControls"]
-text = "↓"
-position = Vector2(900, 720)
-size = Vector2(100, 100)
+[node name="LookArea" type="TouchScreenButton" parent="."]
+shape = SubResource("RectangleShape2D_treeb")
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 100.0
+[node name="UpButton" type="Button" parent="."]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2(400, 400)
+[node name="DownButton" type="Button" parent="."]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
