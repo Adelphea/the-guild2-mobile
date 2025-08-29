@@ -9,32 +9,34 @@ var drag_start := Vector2.ZERO
 var is_dragging := false
 
 func _process(delta: float) -> void:
-    var cam = get_tree().get_first_node_in_group("camera")
-    if cam == null:
+    # On cherche le joueur au lieu de la caméra
+    var player = get_tree().get_first_node_in_group("player")
+    if player == null:
         return
 
     # ---- Joystick : mouvement ----
     if joystick.is_pressed():
         var pos = joystick.get_local_mouse_position()
-        # Normalisation pour éviter vitesse infinie
-        cam.move_input = pos.normalized()
+        # Normalisation pour avoir un vecteur entre -1 et 1
+        player.move_input = pos.normalized()
     else:
-        cam.move_input = Vector2.ZERO
+        player.move_input = Vector2.ZERO
 
     # ---- Zone tactile : rotation ----
     if look_area.is_pressed():
         var touch = look_area.get_local_mouse_position()
         if is_dragging:
-            cam.look_input = touch - drag_start
+            player.look_input = touch - drag_start
         drag_start = touch
         is_dragging = true
     else:
-        cam.look_input = Vector2.ZERO
+        player.look_input = Vector2.ZERO
         is_dragging = false
 
-    # ---- Boutons ↑ ↓ ----
-    cam.vertical_input = 0.0
+    # ---- Boutons ↑ ↓ (désactivés pour le joueur, utiles pour caméra libre) ----
+    # On pourrait les garder pour un saut ou autre action plus tard.
+    player.vertical_input = 0.0
     if up_button.is_pressed():
-        cam.vertical_input += 1.0
+        player.vertical_input += 1.0
     if down_button.is_pressed():
-        cam.vertical_input -= 1.0
+        player.vertical_input -= 1.0
