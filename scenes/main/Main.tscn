@@ -1,23 +1,27 @@
-[gd_scene format=3 uid="uid://main_scene"]
+[gd_scene load_steps=5 format=3 uid="uid://j7nq24tds7bw"]
 
-[ext_resource type="Script" path="res://scripts/core/FreeCameraMobile.gd" id=1]
-[ext_resource type="PackedScene" path="res://scenes/ui/MobileControls.tscn" id=2]
+[ext_resource type="Script" uid="uid://cgqp8xabd3gpf" path="res://scripts/core/FreeCameraMobile.gd" id="1_iuonh"]
+[ext_resource type="PackedScene" uid="uid://dpvjalulucwry" path="res://scenes/ui/MobileControls.tscn" id="2_k2fmo"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_l3cfh"]
+size = Vector2(200, 200)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nha0i"]
+albedo_color = Color(0, 0.407843, 0, 1)
 
 [node name="Main" type="Node3D"]
 
-[node name="Floor" type="MeshInstance3D" parent="Main"]
-mesh = SubResource(1)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_l3cfh")
+surface_material_override/0 = SubResource("StandardMaterial3D_nha0i")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Main"]
-rotation = Vector3(-0.7, 0.0, 0.0)
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Camera3D" type="Camera3D" parent="Main"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+
+[node name="Control" parent="." instance=ExtResource("2_k2fmo")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 20)
 current = true
-script = ExtResource("1")
-groups = ["camera"]
-
-[node name="UI" type="CanvasLayer" parent="Main"]
-[node name="MobileControls" parent="UI" instance=ExtResource("2")]
-
-[sub_resource type="PlaneMesh" id=1]
-size = Vector2(200, 200)
+script = ExtResource("1_iuonh")
